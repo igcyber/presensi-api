@@ -118,6 +118,189 @@
       ]
     },
     {
+      "name": "setting",
+      "item": [
+        {
+          "name": "profile",
+          "item": [
+            {
+              "name": "/api/setting/profile",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/setting/profile",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "setting",
+                    "profile"
+                  ]
+                }
+              },
+              "parameter": {}
+            },
+            {
+              "name": "/api/setting/profile/update-profile",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/setting/profile/update-profile",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "setting",
+                    "profile",
+                    "update-profile"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nama\": \"string | Required => Prama Raja Bajak Laut\",\n  \"no_hp\": \"string | Required => 085225800852\",\n  \"email\": \"email | Required => prama@prama.com\",\n  \"username\": \"string | Required => prama\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/setting/profile/update-password",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/setting/profile/update-password",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "setting",
+                    "profile",
+                    "update-password"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"old_password\": \"string | Required | Min : 6 => KingPramaNomor1\",\n  \"password\": \"string | Required | Min : 6 => 1223456\",\n  \"password_confirmation\": \"string | Required | Min : 6 => 1223456\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/setting/profile/face-id",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/setting/profile/face-id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "setting",
+                    "profile",
+                    "face-id"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image\": \"file | extensi jpg, jpeg, dan png => FILE\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/setting/profile/check-face-id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/setting/profile/check-face-id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "setting",
+                    "profile",
+                    "check-face-id"
+                  ]
+                }
+              },
+              "parameter": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "admin",
       "item": [
         {
@@ -1152,6 +1335,7 @@
                 }
               },
               "parameter": {
+                "pegawai_id": "number | Required => 1",
                 "tipe": "string => bulanan | range",
                 "month": "number | Required Jika Tipe == bulanan => 12",
                 "year": "number | Required Jika Tipe == bulanan => 2025",
@@ -1263,189 +1447,6 @@
                     "admin",
                     "pwa-version",
                     "latest"
-                  ]
-                }
-              },
-              "parameter": {}
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "setting",
-      "item": [
-        {
-          "name": "profile",
-          "item": [
-            {
-              "name": "/api/setting/profile",
-              "request": {
-                "method": "GET",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{TOKEN}}"
-                  }
-                ],
-                "url": {
-                  "raw": "{{base_url}}/api/setting/profile",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "setting",
-                    "profile"
-                  ]
-                }
-              },
-              "parameter": {}
-            },
-            {
-              "name": "/api/setting/profile/update-profile",
-              "request": {
-                "method": "PUT",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{TOKEN}}"
-                  }
-                ],
-                "url": {
-                  "raw": "{{base_url}}/api/setting/profile/update-profile",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "setting",
-                    "profile",
-                    "update-profile"
-                  ]
-                },
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"nama\": \"string | Required => Prama Raja Bajak Laut\",\n  \"no_hp\": \"string | Required => 085225800852\",\n  \"email\": \"email | Required => prama@prama.com\",\n  \"username\": \"string | Required => prama\"\n}"
-                }
-              }
-            },
-            {
-              "name": "/api/setting/profile/update-password",
-              "request": {
-                "method": "PUT",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{TOKEN}}"
-                  }
-                ],
-                "url": {
-                  "raw": "{{base_url}}/api/setting/profile/update-password",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "setting",
-                    "profile",
-                    "update-password"
-                  ]
-                },
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"old_password\": \"string | Required | Min : 6 => KingPramaNomor1\",\n  \"password\": \"string | Required | Min : 6 => 1223456\",\n  \"password_confirmation\": \"string | Required | Min : 6 => 1223456\"\n}"
-                }
-              }
-            },
-            {
-              "name": "/api/setting/profile/face-id",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{TOKEN}}"
-                  }
-                ],
-                "url": {
-                  "raw": "{{base_url}}/api/setting/profile/face-id",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "setting",
-                    "profile",
-                    "face-id"
-                  ]
-                },
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"image\": \"file | extensi jpg, jpeg, dan png => FILE\"\n}"
-                }
-              }
-            },
-            {
-              "name": "/api/setting/profile/check-face-id",
-              "request": {
-                "method": "GET",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{TOKEN}}"
-                  }
-                ],
-                "url": {
-                  "raw": "{{base_url}}/api/setting/profile/check-face-id",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "setting",
-                    "profile",
-                    "check-face-id"
                   ]
                 }
               },

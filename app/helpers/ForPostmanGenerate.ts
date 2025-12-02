@@ -238,6 +238,7 @@ export function extractQueryParamsFromHandler(route: any): Record<string, any> |
 
         case '/api/admin/rekap-absen':
 			return {
+                pegawai_id: "number | Required => 1",
                 tipe: "string => bulanan | range",
                 month: "number | Required Jika Tipe == bulanan => 12",
                 year: "number | Required Jika Tipe == bulanan => 2025",
