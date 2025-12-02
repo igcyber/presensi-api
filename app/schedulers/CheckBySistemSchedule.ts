@@ -114,6 +114,7 @@ export const handleCheckBySistemSchedule = async () => {
 
     // @ts-ignore
     const pegawai   =   await UserPegawaiModel.query()
+    .preload('user', (qp: any) => qp.select('id'))
     .preload('kantor', (qp: any) => qp.select('id', 'lat', 'long', 'except_user', 'radius_limit'))
     .whereIn('id', [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
@@ -136,6 +137,7 @@ export const handleCheckBySistemSchedule = async () => {
 
             // @ts-ignore
             const kantor            =   p.kantor
+            const user              =   p.user
             
             const dataPermohonan    =   permohonan.find(
                 (ps: any) => ps.status === 'pending' && getTanggalFormatTimeStamp(ps.tanggal_pengajuan, false) === getTanggalFormatTimeStamp(awal, false)
@@ -188,7 +190,21 @@ export const handleCheckBySistemSchedule = async () => {
                 }
             }
 
-            const koordinat     =   randomNearbyCoordinate(kantor.lat, kantor.long, kantor.radius_limit)
+            let dataKoordinat   =   {
+                lat: p.lat,
+                long: p.long,
+                akurasi: haversine(kantor.lat, kantor.long, p.lat, p.long),
+            }
+
+            if (p.id == 11) {
+                const koordinat =   randomNearbyCoordinate(kantor.lat, kantor.long, kantor.radius_limit)
+
+                dataKoordinat   =   {
+                    ...koordinat,
+                    akurasi: haversine(kantor.lat, kantor.long, koordinat.lat, koordinat.long)
+                }
+            }
+
             const foto          =   getRandomFoto(p.id)
             let   realFoto      =   foto ? randomFileName(path.basename(foto)) : null
 
@@ -203,13 +219,17 @@ export const handleCheckBySistemSchedule = async () => {
                 )
             }
 
+            const tanggal       =   new Date().toLocaleDateString('sv-SE') + ' ' + randomTime("07:00:00", "07:50:00")
+
             const data: any     =   {
                 pegawai_id: p.id,
                 foto: realFoto,
-                tanggal_absen: new Date().toLocaleDateString('sv-SE') + ' ' + randomTime("07:00:00", "07:50:00"),
+                tanggal_absen: tanggal,
                 tipe: "MASUK",
-                ...koordinat,
-                akurasi: haversine(kantor.lat, kantor.long, koordinat.lat, koordinat.long)
+                ...dataKoordinat,
+                created_by: user.id,
+                created_at: tanggal,
+                updated_at: tanggal
             }
 
             // @ts-ignore
