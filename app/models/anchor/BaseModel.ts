@@ -25,16 +25,22 @@ export default class BaseModel extends LucidBaseModel {
 
 	@beforeCreate()
 	static setCreatedAt(model: BaseModel) {
-		// @ts-ignore
-		model.created_at = this.formatTimestamp()
-		// @ts-ignore
-		model.updated_at = this.formatTimestamp()
+		if (!model.created_at) {
+			// @ts-ignore
+			model.created_at = this.formatTimestamp()
+		}
+		if (!model.updated_at) {
+			// @ts-ignore
+			model.updated_at = this.formatTimestamp()
+		}
 	}
 
 	@beforeUpdate()
 	static setUpdatedAt(model: BaseModel) {
-		// @ts-ignore
-		model.updated_at = this.formatTimestamp()
+		if (!model.updated_at) {
+			// @ts-ignore
+			model.updated_at = this.formatTimestamp()
+		}
 	}
 
 	@beforeCreate()
