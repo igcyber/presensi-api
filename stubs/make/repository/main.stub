@@ -1,0 +1,20 @@
+import { Exact } from '#utils/exact'
+import { LucidRow } from '@adonisjs/lucid/types/model'
+import { inject } from '@adonisjs/core'
+
+import BaseRepository from '#IRepositories/core/BaseRepository'
+import {{CLASS}}Interface from '#IInterfaces/{{NAMESPACE}}{{CLASS}}Interface'
+import {{CLASS}}Model from '#models/{{CLASS}}Model'
+
+@inject()
+export default class {{CLASS}}Repository extends BaseRepository<{{CLASS}}Model & LucidRow> implements Exact<{{CLASS}}Interface, {{CLASS}}Repository> {
+	constructor() {
+		super({{CLASS}}Model)
+	}
+
+	// Disini Wajib Menyesuaikan {{CLASS}}Inteface
+	// Contoh findAll() Harus Ada Di {{CLASS}}Interface
+	// async findAll(): Promise<{{CLASS}}Model[]> {
+	//	  return this.getAll()
+	// }
+}

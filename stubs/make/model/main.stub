@@ -1,0 +1,14 @@
+import { column } from '@adonisjs/lucid/orm'
+
+import SoftDeleteModel from '#models/anchor/SoftDeleteModel'
+
+export default class {{CLASS}}Model extends SoftDeleteModel {
+	static table = 'nama_model'
+
+	@column({ isPrimary: true })
+	declare id: number
+
+    // contoh:
+	// @column()
+	// declare nama: string
+}

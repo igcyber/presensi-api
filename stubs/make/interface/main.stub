@@ -1,0 +1,7 @@
+import BaseInterface from '#IInterfaces/core/BaseInterface'
+import {{CLASS}}Model from '#models/{{CLASS}}Model'
+
+export default interface {{CLASS}}Interface extends BaseInterface<{{CLASS}}Model> {
+	// Ini {{CLASS}}Interface Kalau Ada Interface Baru
+	// Contoh : findByJudul(judul: string): Promise<{{CLASS}} | null>
+}

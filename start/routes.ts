@@ -1,0 +1,7 @@
+import '#routes/public'
+import '#routes/auth'
+import '#routes/setting'
+import '#routes/admin'
+import '#routes/pegawai'
+import '#routes/sample'
+import '#routes/postman/postman'

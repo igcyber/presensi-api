@@ -1,0 +1,1728 @@
+{
+  "info": {
+    "name": "API Presensi",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "login",
+          "item": [
+            {
+              "name": "/api/auth/login",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "login"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"string | Required => prama123\",\n  \"password\": \"string | Required => KingPramaNomor1\"\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "refresh-token",
+          "item": [
+            {
+              "name": "/api/auth/refresh-token",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/refresh-token",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "refresh-token"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refresh_token\": \"{{REFRESH_TOKEN}}\"\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "item": [
+            {
+              "name": "/api/auth/logout",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/logout",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "logout"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refresh_token\": \"{{REFRESH_TOKEN}}\"\n}"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "admin",
+      "item": [
+        {
+          "name": "dashboard",
+          "item": [
+            {
+              "name": "/api/admin/dashboard/summary",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/dashboard/summary",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "dashboard",
+                    "summary"
+                  ]
+                }
+              },
+              "parameter": {
+                "type": "string | daily, weekly, monthly | default : daily => daily"
+              }
+            },
+            {
+              "name": "/api/admin/dashboard/chart",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/dashboard/chart",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "dashboard",
+                    "chart"
+                  ]
+                }
+              },
+              "parameter": {
+                "type": "string | daily, weekly, monthly | default : daily => daily"
+              }
+            },
+            {
+              "name": "/api/admin/dashboard/daily",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/dashboard/daily",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "dashboard",
+                    "daily"
+                  ]
+                }
+              },
+              "parameter": {}
+            }
+          ]
+        },
+        {
+          "name": "kantor",
+          "item": [
+            {
+              "name": "/api/admin/kantor",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/kantor",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "kantor"
+                  ]
+                }
+              },
+              "parameter": {
+                "search": "string | null | Untuk Mencari nama, alamat, atau deskripsi => Kutai Kartanegara",
+                "page": "number | default = 1 => 2",
+                "per_page": "number | default = 10, ini untuk limit yang ditampilkan => 20"
+              }
+            },
+            {
+              "name": "/api/admin/kantor/:id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/kantor/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "kantor",
+                    ":id"
+                  ]
+                }
+              },
+              "parameter": {}
+            },
+            {
+              "name": "/api/admin/kantor",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/kantor",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "kantor"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nama\": \"string | Required => Sample\",\n  \"alamat\": \"string | Optional => Jl. Sample No. X RT. 01 RW. 00\",\n  \"lat\": \"string | Required => -0.4191422207962125\",\n  \"long\": \"string | Required => 117.16900524248992\",\n  \"deskripsi\": \"string | Optional => Kantor\",\n  \"radius_limit\": \"number | Required => 100\",\n  \"jam_masuk\": \"string | Required => 07:30\",\n  \"jam_pulang\": \"string | Required => 16:30\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/admin/kantor/:id",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/kantor/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "kantor",
+                    ":id"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nama\": \"string | Optional => Sample\",\n  \"alamat\": \"string | Optional => Jl. Sample No. X RT. 01 RW. 00\",\n  \"lat\": \"string | Optional => -0.4191422207962125\",\n  \"long\": \"string | Optional => 117.16900524248992\",\n  \"deskripsi\": \"string | Optional => Kantor\",\n  \"radius_limit\": \"number | Optional => 100\",\n  \"jam_masuk\": \"string | Optional => 07:30\",\n  \"jam_pulang\": \"string | Optional => 16:30\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/admin/kantor/:id",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/kantor/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "kantor",
+                    ":id"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "tipe-pegawai",
+          "item": [
+            {
+              "name": "/api/admin/tipe-pegawai",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/tipe-pegawai",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "tipe-pegawai"
+                  ]
+                }
+              },
+              "parameter": {
+                "search": "string | null | Untuk Mencari nama tipe pegawai => TA",
+                "page": "number | default = 1 => 2",
+                "per_page": "number | default = 10, ini untuk limit yang ditampilkan => 20"
+              }
+            },
+            {
+              "name": "/api/admin/tipe-pegawai/list-tipe-pegawai",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/tipe-pegawai/list-tipe-pegawai",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "tipe-pegawai",
+                    "list-tipe-pegawai"
+                  ]
+                }
+              },
+              "parameter": {}
+            },
+            {
+              "name": "/api/admin/tipe-pegawai/:id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/tipe-pegawai/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "tipe-pegawai",
+                    ":id"
+                  ]
+                }
+              },
+              "parameter": {}
+            },
+            {
+              "name": "/api/admin/tipe-pegawai",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/tipe-pegawai",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "tipe-pegawai"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nama\": \"string | Required => TA\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/admin/tipe-pegawai/:id",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/tipe-pegawai/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "tipe-pegawai",
+                    ":id"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nama\": \"string | Optional => TA\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/admin/tipe-pegawai/:id",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/tipe-pegawai/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "tipe-pegawai",
+                    ":id"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "pegawai",
+          "item": [
+            {
+              "name": "/api/admin/pegawai",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/pegawai",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "pegawai"
+                  ]
+                }
+              },
+              "parameter": {
+                "search": "string | null | Untuk Mencari nama check_radius email username no_hp => test cari apa aja",
+                "type": "string | Sesuai Text Tipe Pegawai => TA, THL, PKL Dll",
+                "page": "number | default = 1 => 2",
+                "per_page": "number | default = 10, ini untuk limit yang ditampilkan => 20"
+              }
+            },
+            {
+              "name": "/api/admin/pegawai/list-pegawai",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/pegawai/list-pegawai",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "pegawai",
+                    "list-pegawai"
+                  ]
+                }
+              },
+              "parameter": {}
+            },
+            {
+              "name": "/api/admin/pegawai/:id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/pegawai/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "pegawai",
+                    ":id"
+                  ]
+                }
+              },
+              "parameter": {}
+            },
+            {
+              "name": "/api/admin/pegawai",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/pegawai",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "pegawai"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tipe_pegawai_id\": \"number | Required => 1\",\n  \"kantor_id\": \"number | Required => 1\",\n  \"nama\": \"string | Required => Prama Raja Bajak Laut\",\n  \"check_radius\": \"enum | Required => YA | TIDAK\",\n  \"lat\": \"string | Required => -0.4191422207962125\",\n  \"long\": \"string | Required => 117.16900524248992\",\n  \"no_hp\": \"string | Required => 085225800852\",\n  \"email\": \"email | Required => prama@prama.com\",\n  \"username\": \"string | Required => prama\",\n  \"password\": \"string | Required => KingPramaNomor1\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/admin/pegawai/:id",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/pegawai/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "pegawai",
+                    ":id"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tipe_pegawai_id\": \"number | Required => 1\",\n  \"kantor_id\": \"number | Required => 1\",\n  \"nama\": \"string | Required => Prama Raja Bajak Laut\",\n  \"check_radius\": \"enum | Required => YA | TIDAK\",\n  \"lat\": \"string | Required => -0.4191422207962125\",\n  \"long\": \"string | Required => 117.16900524248992\",\n  \"no_hp\": \"string | Required => 085225800852\",\n  \"email\": \"email | Required => prama@prama.com\",\n  \"username\": \"string | Required => prama\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/admin/pegawai/:id",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/pegawai/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "pegawai",
+                    ":id"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "permohonan",
+          "item": [
+            {
+              "name": "/api/admin/permohonan",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/permohonan",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "permohonan"
+                  ]
+                }
+              },
+              "parameter": {
+                "search": "string | null | Untuk Mencari keterangan_pengajuan, keterangan_verifikator, dan username verifikator => test cari apa aja",
+                "status": "string | Semua Status, Pending, Diterima, Ditolak, Batal | default Semua Status => Pending",
+                "tipe": "string | Semua Tipe, Izin, Sakit, Cuti | default Semua Tipe => Izin",
+                "date": "string | default Hari Ini => 2025-11-01",
+                "page": "number | default = 1 => 2",
+                "per_page": "number | default = 10, ini untuk limit yang ditampilkan => 20"
+              }
+            },
+            {
+              "name": "/api/admin/permohonan/:id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/permohonan/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "permohonan",
+                    ":id"
+                  ]
+                }
+              },
+              "parameter": {}
+            },
+            {
+              "name": "/api/admin/permohonan/:id/verify",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/permohonan/:id/verify",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "permohonan",
+                    ":id",
+                    "verify"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"enum | Required => pending | diterima | ditolak\",\n  \"keterangan_verifikator\": \"string | Optional => Permohanan Diterima\"\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "hari-libur",
+          "item": [
+            {
+              "name": "/api/admin/hari-libur",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/hari-libur",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "hari-libur"
+                  ]
+                }
+              },
+              "parameter": {
+                "search": "string | null | Untuk Mencari keterangan => lorem ipsum dolor sit amet",
+                "date": "string | Default Hari Ini Jika Kosong => 2025-11-01",
+                "page": "number | default = 1 => 2",
+                "per_page": "number | default = 10, ini untuk limit yang ditampilkan => 20"
+              }
+            },
+            {
+              "name": "/api/admin/hari-libur/:id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/hari-libur/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "hari-libur",
+                    ":id"
+                  ]
+                }
+              },
+              "parameter": {}
+            },
+            {
+              "name": "/api/admin/hari-libur",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/hari-libur",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "hari-libur"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tanggal\": \"string | Required => 2025-12-01\",\n  \"keterangan\": \"string | Optional => Libur Nasional\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/admin/hari-libur/:id",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/hari-libur/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "hari-libur",
+                    ":id"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tanggal\": \"string | Optional => 2025-12-01\",\n  \"keterangan\": \"string | Optional => Libur Kantor\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/admin/hari-libur/:id",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/hari-libur/:id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "hari-libur",
+                    ":id"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "rekap-absen",
+          "item": [
+            {
+              "name": "/api/admin/rekap-absen",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/rekap-absen",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "rekap-absen"
+                  ]
+                }
+              },
+              "parameter": {
+                "tipe": "string => bulanan | range",
+                "month": "number | Required Jika Tipe == bulanan => 12",
+                "year": "number | Required Jika Tipe == bulanan => 2025",
+                "start_date": "string | Required Jika Tipe == range => 2025-11-01",
+                "end_date": "string | Required Jika Tipe == range | Tidak Boleh Kurang Dari Tanggak start_date => 2025-11-30"
+              }
+            }
+          ]
+        },
+        {
+          "name": "pwa-version",
+          "item": [
+            {
+              "name": "/api/admin/pwa-version",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/pwa-version",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "pwa-version"
+                  ]
+                }
+              },
+              "parameter": {
+                "search": "string | null | Untuk Mencari versi dan key => v1.0.0.1",
+                "page": "number | default = 1 => 2",
+                "per_page": "number | default = 10, ini untuk limit yang ditampilkan => 20"
+              }
+            },
+            {
+              "name": "/api/admin/pwa-version",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/pwa-version",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "pwa-version"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version\": \"string | Required | Unique => V1.0.0.1\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/admin/pwa-version/latest",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/pwa-version/latest",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "pwa-version",
+                    "latest"
+                  ]
+                }
+              },
+              "parameter": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "setting",
+      "item": [
+        {
+          "name": "profile",
+          "item": [
+            {
+              "name": "/api/setting/profile",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/setting/profile",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "setting",
+                    "profile"
+                  ]
+                }
+              },
+              "parameter": {}
+            },
+            {
+              "name": "/api/setting/profile/update-profile",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/setting/profile/update-profile",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "setting",
+                    "profile",
+                    "update-profile"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nama\": \"string | Required => Prama Raja Bajak Laut\",\n  \"no_hp\": \"string | Required => 085225800852\",\n  \"email\": \"email | Required => prama@prama.com\",\n  \"username\": \"string | Required => prama\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/setting/profile/update-password",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/setting/profile/update-password",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "setting",
+                    "profile",
+                    "update-password"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"old_password\": \"string | Required | Min : 6 => KingPramaNomor1\",\n  \"password\": \"string | Required | Min : 6 => 1223456\",\n  \"password_confirmation\": \"string | Required | Min : 6 => 1223456\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/setting/profile/face-id",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/setting/profile/face-id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "setting",
+                    "profile",
+                    "face-id"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image\": \"file | extensi jpg, jpeg, dan png => FILE\"\n}"
+                }
+              }
+            },
+            {
+              "name": "/api/setting/profile/check-face-id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/setting/profile/check-face-id",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "setting",
+                    "profile",
+                    "check-face-id"
+                  ]
+                }
+              },
+              "parameter": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pegawai",
+      "item": [
+        {
+          "name": "absen",
+          "item": [
+            {
+              "name": "/api/pegawai/absen",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/pegawai/absen",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "pegawai",
+                    "absen"
+                  ]
+                }
+              },
+              "parameter": {}
+            },
+            {
+              "name": "/api/pegawai/absen",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/pegawai/absen",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "pegawai",
+                    "absen"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tipe\": \"enum | Required => MASUK | PULANG\",\n  \"lat\": \"string | Required => -0.4191422207962125\",\n  \"long\": \"string | Required => 117.16900524248992\",\n  \"jarak\": \"10\",\n  \"image\": \"file | extensi jpg, jpeg, dan png => FILE\"\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "rekap-absen",
+          "item": [
+            {
+              "name": "/api/pegawai/rekap-absen",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/pegawai/rekap-absen",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "pegawai",
+                    "rekap-absen"
+                  ]
+                }
+              },
+              "parameter": {
+                "tipe": "string => bulanan | range",
+                "month": "number | Required Jika Tipe == bulanan => 12",
+                "year": "number | Required Jika Tipe == bulanan => 2025",
+                "start_date": "string | Required Jika Tipe == range => 2025-11-01",
+                "end_date": "string | Required Jika Tipe == range | Tidak Boleh Kurang Dari Tanggak start_date => 2025-11-30"
+              }
+            }
+          ]
+        },
+        {
+          "name": "riwayat-absen",
+          "item": [
+            {
+              "name": "/api/pegawai/riwayat-absen",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/pegawai/riwayat-absen",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "pegawai",
+                    "riwayat-absen"
+                  ]
+                }
+              },
+              "parameter": {
+                "date": "string | Default Hari Ini Jika Kosong => 2025-11-01"
+              }
+            }
+          ]
+        },
+        {
+          "name": "pengajuan-tidak-hadir",
+          "item": [
+            {
+              "name": "/api/pegawai/pengajuan-tidak-hadir",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/pegawai/pengajuan-tidak-hadir",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "pegawai",
+                    "pengajuan-tidak-hadir"
+                  ]
+                }
+              },
+              "parameter": {
+                "search": "string | null | Untuk Mencari keterangan_pengajuan, keterangan_verifikator, dan username verifikator => test cari apa aja",
+                "status": "string | Semua Status, Pending, Diterima, Ditolak, Batal | default Semua Status => Pending",
+                "tipe": "string | Semua Tipe, Izin, Sakit, Cuti | default Semua Tipe => Izin",
+                "date": "string | default Hari Ini => 2025-11-01"
+              }
+            },
+            {
+              "name": "/api/pegawai/pengajuan-tidak-hadir/status-permohonan",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/pegawai/pengajuan-tidak-hadir/status-permohonan",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "pegawai",
+                    "pengajuan-tidak-hadir",
+                    "status-permohonan"
+                  ]
+                }
+              },
+              "parameter": {}
+            },
+            {
+              "name": "/api/pegawai/pengajuan-tidak-hadir",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/pegawai/pengajuan-tidak-hadir",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "pegawai",
+                    "pengajuan-tidak-hadir"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tipe\": \"enum | Required => Izin | Sakit | Cuti\",\n  \"tanggal_pengajuan\": \"string | Required => 2025-12-01\",\n  \"keterangan_pengajuan\": \"string | Required => Izin Sakit Tidak Bisa Masuk\",\n  \"file_pendukung\": \"file | extensi pdf => FILE\"\n}"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

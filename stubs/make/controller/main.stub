@@ -1,0 +1,17 @@
+import { inject } from '@adonisjs/core'
+
+// Jika Custom Nyalakan Ini
+// import type { HttpContext } from '@adonisjs/core/http'
+// import * as ResponseHelper from '#helpers/ResponseHelper'
+
+import BaseController from '#controllers/core/BaseController'
+import {{CLASS}}Service from '#IServices/{{NAMESPACE}}{{CLASS}}Service'
+
+@inject()
+export default class {{CLASS}}Controller extends BaseController<{{CLASS}}Service> {
+    constructor(service: {{CLASS}}Service) {
+        super(service)
+    }
+
+    // override di sini jika mau custom atau menambahkan method
+}

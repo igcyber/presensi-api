@@ -1,0 +1,24 @@
+import { inject } from '@adonisjs/core'
+
+import BaseService from '#IServices/core/BaseService'
+import {{CLASS}}Repository from '#IRepositories/{{NAMESPACE}}{{CLASS}}Repository'
+import { create{{CLASS}}Validator, update{{CLASS}}Validator } from '#IValidations/{{NAMESPACE}}{{CLASS}}Validation'
+
+@inject()
+export default class {{CLASS}}Service extends BaseService<
+    typeof create{{CLASS}}Validator,
+    typeof update{{CLASS}}Validator,
+    // @ts-ignore
+    {{CLASS}}Repository
+> { 
+    constructor(repository: {{CLASS}}Repository) {
+        super(repository, create{{CLASS}}Validator, update{{CLASS}}Validator)
+    }
+
+    // Disini Bisa Menambahkan Fungsi atau Men-Override Fungsi Pada BaseService
+
+    // Contoh Fungsi Baru
+    // public async listAllSample(): Promise<{{CLASS}}Moldel[]> {
+    //     return this.repository.getAll()
+    // }
+}
