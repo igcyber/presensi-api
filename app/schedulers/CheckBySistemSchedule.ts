@@ -99,6 +99,14 @@ const getRandomFoto = (pegawaiId: number): string | null => {
     return path.join('storage/system', String(pegawaiId), randomFile)
 }
 
+const randomFileName = (originalName: string) => {
+  const ext         =   originalName.split('.').pop() || 'jpg'
+  const rand        =   Math.random().toString(36).substring(2, 10)
+  const timestamp   =   Date.now()
+
+  return `${timestamp}_${rand}.${ext}`
+}
+
 export const handleCheckBySistemSchedule = async () => {
     const hariIni   =   getDays()
     const awal      =   hariIni.awal
@@ -182,7 +190,7 @@ export const handleCheckBySistemSchedule = async () => {
 
             const koordinat     =   randomNearbyCoordinate(kantor.lat, kantor.long, kantor.radius_limit)
             const foto          =   getRandomFoto(p.id)
-            let   realFoto      =   foto ? path.basename(foto) : null
+            let   realFoto      =   foto ? randomFileName(path.basename(foto)) : null
 
             if ( foto && realFoto ) {
                 const fullOldPath   =   app.makePath(foto)
