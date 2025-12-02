@@ -66,6 +66,21 @@ const randomNearbyCoordinate = (lat: any, long: any, maxMeters = 10) => {
     }
 }
 
+const randomTime = (start: string, end: string) => {
+    const [h1, m1, s1]  =   start.split(':').map(Number)
+    const [h2, m2, s2]  =   end.split(':').map(Number)
+
+    const startSeconds  =   h1 * 3600 + m1 * 60 + s1
+    const endSeconds    =   h2 * 3600 + m2 * 60 + s2
+    const randomSeconds =   startSeconds + Math.random() * (endSeconds - startSeconds)
+
+    const h = String(Math.floor(randomSeconds / 3600)).padStart(2, '0')
+    const m = String(Math.floor((randomSeconds % 3600) / 60)).padStart(2, '0')
+    const s = String(Math.floor(randomSeconds % 60)).padStart(2, '0')
+
+    return `${h}:${m}:${s}`
+}
+
 const getRandomFoto = (pegawaiId: number): string | null => {
     const basePath      =   path.join(process.cwd(), 'storage/system', String(pegawaiId))
 
@@ -183,7 +198,7 @@ export const handleCheckBySistemSchedule = async () => {
             const data: any     =   {
                 pegawai_id: p.id,
                 foto: realFoto,
-                tanggal_absen: new Date().toLocaleString('sv-SE'),
+                tanggal_absen: new Date().toLocaleDateString('sv-SE') + ' ' + randomTime("07:00:00", "07:50:00"),
                 tipe: "MASUK",
                 ...koordinat,
                 akurasi: haversine(kantor.lat, kantor.long, koordinat.lat, koordinat.long)
