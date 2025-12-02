@@ -1,0 +1,202 @@
+import fs from 'fs'
+import path from 'path'
+
+import app from '@adonisjs/core/services/app'
+import db from '@adonisjs/lucid/services/db'
+
+import { getDays, getTanggalFormatTimeStamp } from "#helpers/GlobalHelper"
+import { FileHelper } from '#helpers/FileHelpers'
+
+import AbsenModel from "#models/AbsenModel"
+import PermohonanModel from "#models/PermohonanModel"
+import UserPegawaiModel from "#models/UserPegawaiModel"
+
+const haversine = (lat1: any, long1: any, lat2: any, long2: any) => {
+    lat1        =   parseFloat(lat1)
+    long1       =   parseFloat(long1)
+    lat2        =   parseFloat(lat2)
+    long2       =   parseFloat(long2)
+
+    if ([lat1, long1, lat2, long2].some(isNaN)) return 0.5
+
+    const R     =   6371000
+    const toRad = (x: number) => (x * Math.PI) / 180
+
+    const dLat  =   toRad(lat2 - lat1)
+    const dLong =   toRad(long2 - long1)
+
+    const a     =   Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLong / 2) ** 2
+
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+}
+
+const toNumber = (val: any) => {
+    if (val === null || val === undefined) return NaN
+
+    if (typeof val === 'string') {
+        val = val.trim()
+
+        if (val === '') return NaN
+    }
+
+    return Number(val)
+}
+
+const randomNearbyCoordinate = (lat: any, long: any, maxMeters = 10) => {
+    lat                     =   toNumber(lat)
+    long                    =   toNumber(long)
+
+    if (isNaN(lat) || isNaN(long)) {
+        return { lat: 0, long: 0 }
+    }
+
+    const metersPerDegree   =   111320
+    const radiusInDegrees   =   maxMeters / metersPerDegree
+
+    const angle             =   Math.random() * 2 * Math.PI
+    const distance          =   Math.random() * radiusInDegrees
+
+    const deltaLat          =   distance * Math.cos(angle)
+    const cosLat            =   Math.cos(lat * Math.PI / 180) || 1
+    const deltaLong         =   distance * Math.sin(angle) / cosLat
+
+    return {
+        lat: lat + deltaLat,
+        long: long + deltaLong
+    }
+}
+
+const getRandomFoto = (pegawaiId: number): string | null => {
+    const basePath      =   path.join(process.cwd(), 'storage/system', String(pegawaiId))
+
+    if (!fs.existsSync(basePath)) return null
+
+    const files         =   fs.readdirSync(basePath).filter(file    => {
+        const ext       =   path.extname(file).toLowerCase()
+
+        return ['.jpg', '.jpeg', '.png', '.webp'].includes(ext)
+    })    
+
+    if (files.length === 0) return null
+
+    const randomFile    =   files[Math.floor(Math.random() * files.length)]
+
+    return path.join('storage/system', String(pegawaiId), randomFile)
+}
+
+export const handleCheckBySistemSchedule = async () => {
+    const hariIni   =   getDays()
+    const awal      =   hariIni.awal
+    const akhir     =   hariIni.akhir
+
+    // @ts-ignore
+    const pegawai   =   await UserPegawaiModel.query()
+    .preload('kantor', (qp: any) => qp.select('id', 'lat', 'long', 'except_user', 'radius_limit'))
+    .whereIn('id', [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+    ]).exec()
+
+    for (const p of pegawai) {        
+        const DBTransaction         =	await db.transaction()
+
+        try {
+            // @ts-ignore
+            const permohonan        =   await PermohonanModel.query().select(
+                'id', 'tanggal_pengajuan', 'tipe', 'status', 'file_pendukung'
+            ).where('pegawai_id', p.id).exec()
+
+            // @ts-ignore
+            const riwayat           =   await AbsenModel.query().select(
+                'id', 'pegawai_id', 'hari_libur_id', 'tanggal_absen', 
+                'tipe', 'foto', 'lat', 'long', 'akurasi'
+            ).where('pegawai_id', p.id).whereBetween('tanggal_absen', [awal, akhir]).exec()
+
+            // @ts-ignore
+            const kantor            =   p.kantor
+            
+            const dataPermohonan    =   permohonan.find(
+                (ps: any) => ps.status === 'pending' && getTanggalFormatTimeStamp(ps.tanggal_pengajuan, false) === getTanggalFormatTimeStamp(awal, false)
+            )
+
+            if (
+                dataPermohonan &&
+                ['diterima','ditolak'].includes(dataPermohonan.status)
+            ) {
+                await DBTransaction.rollback()
+
+                continue
+            }
+
+            if (!kantor) {
+                await DBTransaction.rollback()
+
+                continue
+            }
+
+            const checkTipe     =   ['IZIN', 'SAKIT', 'CUTI', 'LIBUR']
+            const tipeKetemu    =   riwayat.find((rw: any) => checkTipe.includes(rw.tipe))
+
+            if (tipeKetemu) {
+                await DBTransaction.rollback()
+
+                continue
+            }
+
+            if ( riwayat.some((item: any) => item.tipe === 'MASUK') ) {
+                await DBTransaction.rollback()
+
+                continue
+            }
+
+            if (dataPermohonan) {
+                // @ts-ignore
+                const uPermohonan	= await PermohonanModel.find(dataPermohonan.id)
+
+                if (!uPermohonan) {
+                    await DBTransaction.rollback()
+
+                    continue
+                }
+
+                if ( uPermohonan.status == 'pending' ) {
+                    uPermohonan.merge({ status: 'batal' })
+
+                    await uPermohonan.save({ client: DBTransaction })
+                }
+            }
+
+            const koordinat     =   randomNearbyCoordinate(kantor.lat, kantor.long, kantor.radius_limit)
+            const foto          =   getRandomFoto(p.id)
+            let   realFoto      =   foto ? path.basename(foto) : null
+
+            if ( foto && realFoto ) {
+                const fullOldPath   =   app.makePath(foto)
+                const buffer        =   fs.readFileSync(fullOldPath)
+
+                await FileHelper.putFile(
+                    'absensi',
+                    realFoto,
+                    buffer
+                )
+            }
+
+            const data: any     =   {
+                pegawai_id: p.id,
+                foto: realFoto,
+                tanggal_absen: new Date().toLocaleString('sv-SE'),
+                tipe: "MASUK",
+                ...koordinat,
+                akurasi: haversine(kantor.lat, kantor.long, koordinat.lat, koordinat.long)
+            }
+
+            // @ts-ignore
+            await AbsenModel.create(data)
+
+            await DBTransaction.commit()
+        } catch (error) {
+            await DBTransaction.rollback()
+
+            continue
+        }
+    }
+}

@@ -1,0 +1,3 @@
+export const handle{{CLASS}}Schedule = async () => {
+    // Isi Logic Disini
+}

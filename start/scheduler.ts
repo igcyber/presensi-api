@@ -1,8 +1,6 @@
+import { handleCheckBySistemSchedule } from '#schedulers/CheckBySistemSchedule';
 import scheduler from 'adonisjs-scheduler/services/main'
 
-scheduler.command("inspire").everyFiveSeconds();
+// scheduler.command("inspire").everyFiveSeconds();
 
-scheduler.call(async () => {
-    console.log('P')
-}).everySecond()
-// .dailyAt('04:00')
+scheduler.call(handleCheckBySistemSchedule).dailyAt('04:00')

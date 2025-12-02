@@ -37,6 +37,7 @@
     "#queues/*": "./app/queue/*.js",
     "#routes/*": "./routes/*.js",
     "#services/*": "./app/services/*.js",
+    "#schedulers/*": "./app/schedulers/*.js",
     "#start/*": "./start/*.js",
     "#tests/*": "./tests/*.js",
     "#types/*": "./app/types/*.js",
