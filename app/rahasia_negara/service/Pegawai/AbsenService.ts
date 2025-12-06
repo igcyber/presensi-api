@@ -44,7 +44,9 @@ export default class AbsenService extends BaseService<
                 long: kantor.long,
                 deskripsi: kantor.deskripsi,
                 radius_limit: kantor.radius_limit,
-                except_user: kantor.except_user.includes( user.pegawai_id )
+                except_user: kantor.except_user.includes( user.pegawai_id ),
+                jam_masuk: kantor.jam_masuk,
+                jam_pulang: kantor.jam_pulang
             } : null
         }
 	}
