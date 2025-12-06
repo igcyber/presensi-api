@@ -4,7 +4,7 @@ import path from 'path'
 import app from '@adonisjs/core/services/app'
 import db from '@adonisjs/lucid/services/db'
 
-import { getDays, getTanggalFormatTimeStamp } from "#helpers/GlobalHelper"
+import { getDays, getTanggalFormatTimeStamp, isWeekend } from "#helpers/GlobalHelper"
 import { FileHelper } from '#helpers/FileHelpers'
 
 import AbsenModel from "#models/AbsenModel"
@@ -120,126 +120,128 @@ export const handleCheckBySistemSchedule = async () => {
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
     ]).exec()
 
-    for (const p of pegawai) {        
-        const DBTransaction         =	await db.transaction()
-
-        try {
-            // @ts-ignore
-            const permohonan        =   await PermohonanModel.query().select(
-                'id', 'tanggal_pengajuan', 'tipe', 'status', 'file_pendukung'
-            ).where('pegawai_id', p.id).exec()
-
-            // @ts-ignore
-            const riwayat           =   await AbsenModel.query().select(
-                'id', 'pegawai_id', 'hari_libur_id', 'tanggal_absen', 
-                'tipe', 'foto', 'lat', 'long', 'akurasi'
-            ).where('pegawai_id', p.id).whereBetween('tanggal_absen', [awal, akhir]).exec()
-
-            // @ts-ignore
-            const kantor            =   p.kantor
-            const user              =   p.user
-            
-            const dataPermohonan    =   permohonan.find(
-                (ps: any) => ps.status === 'pending' && getTanggalFormatTimeStamp(ps.tanggal_pengajuan, false) === getTanggalFormatTimeStamp(awal, false)
-            )
-
-            if (
-                dataPermohonan &&
-                ['diterima','ditolak'].includes(dataPermohonan.status)
-            ) {
-                await DBTransaction.rollback()
-
-                continue
-            }
-
-            if (!kantor) {
-                await DBTransaction.rollback()
-
-                continue
-            }
-
-            const checkTipe     =   ['IZIN', 'SAKIT', 'CUTI', 'LIBUR']
-            const tipeKetemu    =   riwayat.find((rw: any) => checkTipe.includes(rw.tipe))
-
-            if (tipeKetemu) {
-                await DBTransaction.rollback()
-
-                continue
-            }
-
-            if ( riwayat.some((item: any) => item.tipe === 'MASUK') ) {
-                await DBTransaction.rollback()
-
-                continue
-            }
-
-            if (dataPermohonan) {
+    if ( !isWeekend() ) {
+        for (const p of pegawai) {
+            const DBTransaction         =	await db.transaction()
+    
+            try {
                 // @ts-ignore
-                const uPermohonan	= await PermohonanModel.find(dataPermohonan.id)
-
-                if (!uPermohonan) {
+                const permohonan        =   await PermohonanModel.query().select(
+                    'id', 'tanggal_pengajuan', 'tipe', 'status', 'file_pendukung'
+                ).where('pegawai_id', p.id).exec()
+    
+                // @ts-ignore
+                const riwayat           =   await AbsenModel.query().select(
+                    'id', 'pegawai_id', 'hari_libur_id', 'tanggal_absen', 
+                    'tipe', 'foto', 'lat', 'long', 'akurasi'
+                ).where('pegawai_id', p.id).whereBetween('tanggal_absen', [awal, akhir]).exec()
+    
+                // @ts-ignore
+                const kantor            =   p.kantor
+                const user              =   p.user
+                
+                const dataPermohonan    =   permohonan.find(
+                    (ps: any) => ps.status === 'pending' && getTanggalFormatTimeStamp(ps.tanggal_pengajuan, false) === getTanggalFormatTimeStamp(awal, false)
+                )
+    
+                if (
+                    dataPermohonan &&
+                    ['diterima','ditolak'].includes(dataPermohonan.status)
+                ) {
                     await DBTransaction.rollback()
-
+    
                     continue
                 }
-
-                if ( uPermohonan.status == 'pending' ) {
-                    uPermohonan.merge({ status: 'batal' })
-
-                    await uPermohonan.save({ client: DBTransaction })
+    
+                if (!kantor) {
+                    await DBTransaction.rollback()
+    
+                    continue
                 }
-            }
-
-            let dataKoordinat   =   {
-                lat: p.lat,
-                long: p.long,
-                akurasi: haversine(kantor.lat, kantor.long, p.lat, p.long),
-            }
-
-            if (p.id == 11) {
-                const koordinat =   randomNearbyCoordinate(kantor.lat, kantor.long, kantor.radius_limit)
-
-                dataKoordinat   =   {
-                    ...koordinat,
-                    akurasi: haversine(kantor.lat, kantor.long, koordinat.lat, koordinat.long)
+    
+                const checkTipe     =   ['IZIN', 'SAKIT', 'CUTI', 'LIBUR']
+                const tipeKetemu    =   riwayat.find((rw: any) => checkTipe.includes(rw.tipe))
+    
+                if (tipeKetemu) {
+                    await DBTransaction.rollback()
+    
+                    continue
                 }
+    
+                if ( riwayat.some((item: any) => item.tipe === 'MASUK') ) {
+                    await DBTransaction.rollback()
+    
+                    continue
+                }
+    
+                if (dataPermohonan) {
+                    // @ts-ignore
+                    const uPermohonan	= await PermohonanModel.find(dataPermohonan.id)
+    
+                    if (!uPermohonan) {
+                        await DBTransaction.rollback()
+    
+                        continue
+                    }
+    
+                    if ( uPermohonan.status == 'pending' ) {
+                        uPermohonan.merge({ status: 'batal' })
+    
+                        await uPermohonan.save({ client: DBTransaction })
+                    }
+                }
+    
+                let dataKoordinat   =   {
+                    lat: p.lat,
+                    long: p.long,
+                    akurasi: haversine(kantor.lat, kantor.long, p.lat, p.long),
+                }
+    
+                if (p.id == 11) {
+                    const koordinat =   randomNearbyCoordinate(kantor.lat, kantor.long, kantor.radius_limit)
+    
+                    dataKoordinat   =   {
+                        ...koordinat,
+                        akurasi: haversine(kantor.lat, kantor.long, koordinat.lat, koordinat.long)
+                    }
+                }
+    
+                const foto          =   getRandomFoto(p.id)
+                let   realFoto      =   foto ? randomFileName(path.basename(foto)) : null
+    
+                if ( foto && realFoto ) {
+                    const fullOldPath   =   app.makePath(foto)
+                    const buffer        =   fs.readFileSync(fullOldPath)
+    
+                    await FileHelper.putFile(
+                        'absensi',
+                        realFoto,
+                        buffer
+                    )
+                }
+    
+                const tanggal       =   new Date().toLocaleDateString('sv-SE') + ' ' + randomTime("07:00:00", "07:50:00")
+    
+                const data: any     =   {
+                    pegawai_id: p.id,
+                    foto: realFoto,
+                    tanggal_absen: tanggal,
+                    tipe: "MASUK",
+                    ...dataKoordinat,
+                    created_by: user.id,
+                    created_at: tanggal,
+                    updated_at: tanggal
+                }
+    
+                // @ts-ignore
+                await AbsenModel.create(data)
+    
+                await DBTransaction.commit()
+            } catch (error) {
+                await DBTransaction.rollback()
+    
+                continue
             }
-
-            const foto          =   getRandomFoto(p.id)
-            let   realFoto      =   foto ? randomFileName(path.basename(foto)) : null
-
-            if ( foto && realFoto ) {
-                const fullOldPath   =   app.makePath(foto)
-                const buffer        =   fs.readFileSync(fullOldPath)
-
-                await FileHelper.putFile(
-                    'absensi',
-                    realFoto,
-                    buffer
-                )
-            }
-
-            const tanggal       =   new Date().toLocaleDateString('sv-SE') + ' ' + randomTime("07:00:00", "07:50:00")
-
-            const data: any     =   {
-                pegawai_id: p.id,
-                foto: realFoto,
-                tanggal_absen: tanggal,
-                tipe: "MASUK",
-                ...dataKoordinat,
-                created_by: user.id,
-                created_at: tanggal,
-                updated_at: tanggal
-            }
-
-            // @ts-ignore
-            await AbsenModel.create(data)
-
-            await DBTransaction.commit()
-        } catch (error) {
-            await DBTransaction.rollback()
-
-            continue
         }
     }
 }
