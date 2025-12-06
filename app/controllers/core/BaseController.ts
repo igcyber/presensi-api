@@ -29,6 +29,10 @@ export default abstract class BaseController<Service> {
 
             return ResponseHelper.notFound(response, 'Data Tidak Ditemukan')
         } catch (error: any) {
+            if ( error?.code == 404 ) {
+                return ResponseHelper.error(response, error.code, error.message)
+            }
+
             return ResponseHelper.badRequest(response, error.message, error)
         }
 	}
