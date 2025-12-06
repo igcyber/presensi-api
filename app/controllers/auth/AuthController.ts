@@ -39,11 +39,23 @@ export default class AuthController {
 		try {
 			await request.validateUsing(refreshTokenAndLogoutValidator)
 
-			const { refresh_token } = request.only(['refresh_token'])
+			const { refresh_token } =	request.only(['refresh_token'])
 
 			if (!refresh_token) return ResponseHelper.badRequest(response, 'refresh_token dibutuhkan')
 
-			const tokens	=	await AccessToken.query().where('type', 'refresh')
+			let payload: any
+			try {
+				payload				=	jwt.verify(refresh_token, env.get('APP_KEY'))
+			} catch (e) {
+				return ResponseHelper.unauthorized(response, 'Refresh token tidak valid atau sudah expired')
+			}
+
+			if (typeof payload !== 'object' || !('id' in payload) || !('jti' in payload)) {
+				return ResponseHelper.unauthorized(response, 'Payload refresh token tidak valid')
+			}
+
+			const tokens			=	await AccessToken.query().where('type', 'refresh')
+			.where('tokenableId', payload.id).where('key', payload.jti)
 			.andWhere('expires_at', '>', DateTime.now().toSQL()).orderBy('id', 'desc')
 
 			let tokenRecord: AccessToken | null = null
@@ -61,20 +73,17 @@ export default class AuthController {
 			})
 
 			// @ts-ignore
-			const user		=	await User.find(tokenRecord.tokenableId)
+			const user				=	await User.find(tokenRecord.tokenableId)
+			if (!user || user.deleted_at) return ResponseHelper.unauthorized(response, 'User tidak aktif')
 
-			if (!user) return ResponseHelper.unauthorized(response, 'User tidak Ditemukan')
+			await AccessToken.query().where('tokenableId', user.id)
+			.where('key', tokenRecord.key).delete()
 
-			await tokenRecord.delete()
-
-			const token		=	await user.accessTokens.generate(user)
+			const token				=	await user.accessTokens.generate(user)
 
 			return ResponseHelper.success(response, 'Token refreshed', token)
-		} catch (error) {
-			return response.unauthorized({
-				success: false,
-				message: error.message
-			})
+		} catch (error: any) {
+			return ResponseHelper.serverError(response, error.message || 'Proses refresh token gagal')
 		}
 	}
 
@@ -84,7 +93,7 @@ export default class AuthController {
 
 			const { refresh_token }	=	request.only(['refresh_token'])
 
-			if (!refresh_token) return ResponseHelper.badRequest(response, 'refresh token dibutuhkan')
+			if (!refresh_token) return ResponseHelper.badRequest(response, 'Refresh token dibutuhkan')
 
 			let payload: any
 
@@ -94,28 +103,18 @@ export default class AuthController {
 				return ResponseHelper.badRequest(response, 'Invalid refresh token')
 			}
 
-			const tokens	=	await AccessToken.query().where('type', 'refresh')
-			.where('tokenable_id', payload.id)
-
-			let revoked		=	false
-
-			for (const t of tokens) {
-				if (await hash.verify(t.hash, refresh_token)) {
-					await t.delete()
-
-					revoked = true
-
-					break
-				}
+			if (!payload || typeof payload !== 'object' || !('id' in payload) || !('jti' in payload)) {
+				return ResponseHelper.error(response, 401, 'Refresh Token Tidak Valid', {
+					redirect: 'api/auth/login'
+				})
 			}
 
-			if (!revoked) return ResponseHelper.error(response, 401, 'Refresh Token Tidak Valid', {
-				redirect: 'api/auth/login'
-			})
+			await AccessToken.query().where('tokenableId', payload.id)
+			.where('key', payload.jti).delete()
 
 			return ResponseHelper.success(response, 'Proses Logout Berhasil Dilakukan')
-		} catch (err) {
-			return ResponseHelper.serverError(response, 'Proses Logout Gagal Dilakukan')
+		} catch (err: any) {
+			return ResponseHelper.serverError(response, err.message || 'Proses Logout Gagal Dilakukan')
 		}
 	}
 }
