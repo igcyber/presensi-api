@@ -7,6 +7,9 @@ export default class AccessToken extends BaseModel {
 	@column({ isPrimary: true })
 	declare id: number
 
+	@column()
+	declare key: string
+
 	@column({ columnName: 'tokenable_id' })
 	declare tokenableId: number
 

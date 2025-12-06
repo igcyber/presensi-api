@@ -4,6 +4,7 @@ import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import jwt from 'jsonwebtoken'
 
+import { randomUUID } from 'crypto'
 import { symbols } from '@adonisjs/auth'
 import { AuthClientResponse, GuardContract } from '@adonisjs/auth/types'
 import type { HttpContext } from '@adonisjs/core/http'
@@ -77,7 +78,8 @@ export class JwtGuard< UserProvider extends JwtUserProviderContract<unknown> > i
             roles,
             permissions,
             kantor: userPegawai?.kantor?.nama || null,
-            kantor_id: userPegawai?.kantor?.id || null
+            kantor_id: userPegawai?.kantor?.id || null,
+            jti: randomUUID()
         }
 
         const accessToken = jwt.sign(payload, this.#options.secret, {
@@ -90,6 +92,17 @@ export class JwtGuard< UserProvider extends JwtUserProviderContract<unknown> > i
 
         await AccessToken.create({
             tokenableId: providerUser.getId(),
+            key: payload.jti,
+            type: 'access',
+            name: 'auth_access_token',
+            hash: await hash.make(accessToken),
+            abilities: JSON.stringify(permissions),
+            expiresAt: DateTime.now().plus({ days: 1 })
+        })
+
+        await AccessToken.create({
+            tokenableId: providerUser.getId(),
+            key: payload.jti,
             type: 'refresh',
             name: 'auth_refresh_token',
             hash: await hash.make(refreshToken),
@@ -126,12 +139,31 @@ export class JwtGuard< UserProvider extends JwtUserProviderContract<unknown> > i
             return ResponseHelper.unauthorized(this.#ctx.response, 'Token Anda Sudah Expired')
         }
 
-        if (typeof payload !== 'object' || !('id' in payload)) return ResponseHelper.unauthorized(this.#ctx.response, 'Unauthorized access')
+        if (typeof payload !== 'object' || !('id' in payload) || !('jti' in payload)) {
+            return ResponseHelper.unauthorized(this.#ctx.response, 'Unauthorized access')
+        }
 
         const providerUser              =   await this.#userProvider.findById(payload.id)
         if (!providerUser) return ResponseHelper.unauthorized(this.#ctx.response, 'Unauthorized access')
 
-        this.user                       =   providerUser.getOriginal()
+        const user                      =   providerUser.getOriginal()
+
+        // @ts-ignore
+        const accessTokens = await AccessToken.query().where('tokenableId', user.id)
+        .where('type', 'access').where('key', payload.jti)
+
+        let validToken                  =   false
+        for (const t of accessTokens) {
+            if (await hash.verify(t.hash, token)) {
+                validToken = true
+
+                break
+            }
+        }
+
+        if (!validToken) return ResponseHelper.unauthorized(this.#ctx.response, 'Access token sudah di-revoke / tidak valid')
+
+        this.user                       =   user
         this.isAuthenticated            =   true
 
         return this.getUserOrFail()
