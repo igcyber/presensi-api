@@ -84,11 +84,11 @@ export default class RekapAbsenService extends BaseService<
             let status              =   this.isWeekend(key) ? "Tanggal Merah" : "Tanpa Keterangan"
 
             if (dataAbsen.length) {
-                const hasMasuk      =   dataAbsen.some(a => a.tipe === "MASUK")
+                const hasMasuk      =   dataAbsen.some(a => a.tipe === "MASUK" || a.tipe === "MASUK_LEMBUR")
                 const hasIzin       =   dataAbsen.some(a => a.tipe === "IZIN")
                 const hasLibur      =   dataAbsen.some(a => a.tipe === "LIBUR")
 
-                if (hasMasuk) status        = "Hadir"
+                if (hasMasuk) status        = this.isWeekend(key) ? "Lembur" : "Hadir"
                 else if (hasIzin) status    = "Izin"
                 else if (hasLibur) status   = "Libur"
             }

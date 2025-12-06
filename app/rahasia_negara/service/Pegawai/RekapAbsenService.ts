@@ -22,7 +22,7 @@ export default class RekapAbsenService extends BaseService<
         let awal: any, akhir: any       =   null
 
         if (item.tipe == 'bulanan') {
-            const sekarang  =   new Date()
+            const sekarang  =   new Date(`${item.year}-${item.month}-01`)
             awal            =   new Date(sekarang.getFullYear(), sekarang.getMonth(), 1)
             akhir           =   new Date(sekarang.getFullYear(), sekarang.getMonth() + 1, 0)
         } else {
@@ -102,11 +102,11 @@ export default class RekapAbsenService extends BaseService<
             let status              =   isWeekend(key) ? "Tanggal Merah" : "Tanpa Keterangan"
 
             if (dataAbsen.length) {
-                const hasMasuk      =   dataAbsen.some(a => a.tipe === "MASUK")
+                const hasMasuk      =   dataAbsen.some(a => a.tipe === "MASUK" || a.tipe === "MASUK_LEMBUR")
                 const hasIzin       =   dataAbsen.some(a => a.tipe === "IZIN")
                 const hasLibur      =   dataAbsen.some(a => a.tipe === "LIBUR")
 
-                if (hasMasuk) status        = "Hadir"
+                if (hasMasuk) status        = isWeekend(key) ? "Lembur" : "Hadir"
                 else if (hasIzin) status    = "Izin"
                 else if (hasLibur) status   = "Libur"
             }
