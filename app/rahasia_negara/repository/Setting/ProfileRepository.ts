@@ -23,7 +23,7 @@ export default class ProfileRepository extends BaseRepository<UserModel & LucidR
 
 			if (!data) throw new Error('Data tidak ditemukan')
 
-			await data.load('userPegawai')
+			await data.load('userPegawai', (qp: any) => qp.preload('kantor').preload('tipePegawai'))
 
 			return data
 		} catch (error) {
