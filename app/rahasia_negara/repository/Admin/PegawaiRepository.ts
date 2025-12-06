@@ -56,6 +56,19 @@ export default class PegawaiRepository extends BaseRepository<PegawaiModel & Luc
 		return query.exec()
 	}
 
+	async findById(id: number): Promise<any | null> {
+		const query	=	await this.model.find(id)
+
+		if (!query) throw {
+			code: 404,
+			message: 'Data tidak Ditemukan :('
+		}
+
+		await query.load('user')
+
+		return query
+	}
+
 	async createData(dataUser: Partial<any>, dataPegawai: Partial<any>): Promise<PegawaiModel> {
 		const DBTransaction				=	await db.transaction()
 
