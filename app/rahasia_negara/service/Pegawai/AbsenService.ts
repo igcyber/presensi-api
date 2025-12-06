@@ -100,7 +100,7 @@ export default class AbsenService extends BaseService<
             }
         }
 
-        if ( data.tipe === 'PULANG' || data.tipe === 'PULANG_LEMBUR' && !riwayat.some((rw: any) => rw.tipe === 'MASUK') ) {
+        if ( (data.tipe === 'PULANG' || data.tipe === 'PULANG_LEMBUR') && !riwayat.some((rw: any) => rw.tipe === 'MASUK' || rw.tipe === 'MASUK_LEMBUR') ) {
             throw {
                 code: 'E_VALIDATION_ERROR',
                 message: `Pegawai belum melakukan absensi MASUK`
