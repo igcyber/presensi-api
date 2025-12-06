@@ -3,12 +3,19 @@ import type { NextFn } from '@adonisjs/core/types/http'
 import * as ResponseHelper from '#helpers/ResponseHelper'
 
 export default class GuestMiddleware {
-	async handle({ auth, response }: HttpContext, next: NextFn) {
+	async handle({ auth, response, request }: HttpContext, next: NextFn) {
 		try {
-			const isLoggedIn	=	await auth.authenticateUsing(['api'])
+			const authHeader	=	request.header('authorization')
+            if (!authHeader) return next()
 
-			if (isLoggedIn) return ResponseHelper.forbidden(response, 'Anda sudah login.')
-		} catch {
+            const token			=	authHeader.replace('Bearer ', '').trim()
+            if (!token) return next()
+
+            // @ts-ignore
+            const user			=	await auth.use('api').authenticate()
+
+			if ( user ) return ResponseHelper.forbidden(response, 'Anda sudah login.')			
+		} catch (error) {
 			// Invalid Dianggap Guest ajalah
 		}
 

@@ -7,48 +7,40 @@ import * as ResponseHelper from '#helpers/ResponseHelper'
 import AccessToken from '#models/core/access_token'
 import { UserContext } from '#helpers/UserContext'
 
-/**
- * Auth middleware is used authenticate HTTP requests and deny
- * access to unauthenticated users.
- */
 export default class AuthMiddleware {
-	/**
-	 * The URL to redirect to, when authentication fails
-	 */
-	redirectTo = '/login'
-
-	async handle(
+    async handle(
 		{ auth, response, request }: HttpContext,
 		next: NextFn
 	) {
-		await auth.authenticateUsing(['api'])
+        try {
+            const user      =	await auth.use('api').authenticate()
 
-		const bearer	=	request.header('authorization')
-		const token		=	bearer?.replace('Bearer ', '').trim()
+            const bearer	=	request.header('authorization')
+			const token		=	bearer?.replace('Bearer ', '').trim()
+            
+            if (!token) return ResponseHelper.unauthorized(response, 'Unauthorized Access')
 
-		if (!token) return ResponseHelper.unauthorized(response, 'Penggunaan Token Tidak Valid')
+            if (!user) return ResponseHelper.unauthorized(response, 'Token Tidak Valid')
 
-		const user		=	auth.user!
-		
-		if (!user) return ResponseHelper.unauthorized(response, 'User Tidak Terdeteksi')
+			// @ts-ignore
+            const tokens	=	await AccessToken.query().where('tokenableId', user.id).where('type', 'access')
 
-		// @ts-ignore
-		const tokens	=	await AccessToken.query().where('tokenableId', user.id).where('type', 'refresh')
+            let valid		=	false
+            for (const t of tokens) {
+                if (await hash.verify(t.hash, token)) {
+                    valid	=	true
 
-		let valid		=	false
+                    break
+                }
+            }            
 
-		for (const t of tokens) {
-			if (await hash.verify(t.hash, token)) {
-				valid = true
+            if (!valid) return ResponseHelper.error(response, 401, 'Token Telah Kadaluarsa / di-revoke', {
+				redirect: 'api/auth/refresh-token'
+			})
 
-				break
-			}
-		}
-
-		if (!valid) return ResponseHelper.error(response, 401, 'Token Telah Kadaluarsa', {
-			redirect: 'api/auth/refresh-token'
-		})
-
-		return UserContext.run(user, () => next())
-	}
+            return UserContext.run(user, () => next())
+        } catch (err: any) {
+            return ResponseHelper.unauthorized(response, 'Unauthorized Access')
+        }
+    }
 }

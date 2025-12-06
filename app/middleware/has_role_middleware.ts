@@ -3,7 +3,7 @@ import * as ResponseHelper from '#helpers/ResponseHelper'
 
 export default class HasRoleMiddleware {
     async handle({ auth, response }: HttpContext, next: () => Promise<void>, roles: string[]) {
-        const user = auth.user
+        const user      =	await auth.use('api').authenticate()
 
         if (!user) return ResponseHelper.unauthorized(response,'Unauthorized Access')
 

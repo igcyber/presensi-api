@@ -3,8 +3,8 @@ import * as ResponseHelper from '#helpers/ResponseHelper'
 
 export default class HasPermissionMiddleware {
     async handle({ auth, response }: HttpContext, next: () => Promise<void>, permissions: string[]) {
-        const user = auth.user
-        
+        const user      =	await auth.use('api').authenticate()
+
         if (!user) return ResponseHelper.unauthorized(response,'Unauthorized Access')
 
         // @ts-ignore
