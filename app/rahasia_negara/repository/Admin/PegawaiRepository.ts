@@ -26,8 +26,8 @@ export default class PegawaiRepository extends BaseRepository<PegawaiModel & Luc
 				.orWhere('check_radius', 'like', `%${search}%`)
 				.orWhereHas('user', (relQuery: any) => {
 					relQuery.where('email', 'like', `%${search}%`)
-							.orWhere('username', 'like', `%${search}%`)
-							.orWhere('no_hp', 'like', `%${search}%`)
+						.orWhere('username', 'like', `%${search}%`)
+						.orWhere('no_hp', 'like', `%${search}%`)
 				})
 			})
 		}
@@ -37,8 +37,23 @@ export default class PegawaiRepository extends BaseRepository<PegawaiModel & Luc
 		return query.paginate(page, per_page)
 	}
 
-	async allData(): Promise<PegawaiModel[]> {
-		return this.model.query()
+	async allData(search: string): Promise<PegawaiModel[]> {
+		const query = this.model.query()
+
+		if (search) {
+			query.where((q: any) => {
+				q.where('nama', 'like', `%${search}%`)
+				.orWhereHas('user', (relQuery: any) => {
+					relQuery.where('email', 'like', `%${search}%`)
+						.orWhere('username', 'like', `%${search}%`)
+						.orWhere('no_hp', 'like', `%${search}%`)
+				}).orWhereHas('kantor', (kantorQuery: any) => {
+					kantorQuery.where('nama', 'like', `%${search}%`)
+				})
+			})
+		}
+
+		return query.exec()
 	}
 
 	async createData(dataUser: Partial<any>, dataPegawai: Partial<any>): Promise<PegawaiModel> {

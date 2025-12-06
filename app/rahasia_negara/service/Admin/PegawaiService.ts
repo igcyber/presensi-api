@@ -22,8 +22,10 @@ export default class PegawaiService extends BaseService<
 		return this.repository.indexData(search, type, page, per_page)
 	}
 
-    async allData(): Promise<any> {
-		return this.repository.allData()
+    async allData(request: any): Promise<any> {
+        const { search = null } = request || {}
+
+		return this.repository.allData(search)
 	}
 
     async create(data: any): Promise<any> {

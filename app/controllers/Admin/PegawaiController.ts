@@ -23,9 +23,9 @@ export default class PegawaiController extends BaseController<PegawaiService> {
         }
     }
 
-    async allData({ response }: HttpContext) {
+    async allData({ request, response }: HttpContext) {
         try {
-            const data      =   await (this.service as any).allData()
+            const data      =   await (this.service as any).allData(request.qs())
 
             return ResponseHelper.success(response, 'Berhasil Menampilkan Seluruh Data', data)
         } catch (error: any) {
