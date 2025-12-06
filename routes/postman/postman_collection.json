@@ -514,7 +514,7 @@
                 },
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"nama\": \"string | Required => Sample\",\n  \"alamat\": \"string | Optional => Jl. Sample No. X RT. 01 RW. 00\",\n  \"lat\": \"string | Required => -0.4191422207962125\",\n  \"long\": \"string | Required => 117.16900524248992\",\n  \"deskripsi\": \"string | Optional => Kantor\",\n  \"radius_limit\": \"number | Required => 100\",\n  \"jam_masuk\": \"string | Required => 07:30\",\n  \"jam_pulang\": \"string | Required => 16:30\"\n}"
+                  "raw": "{\n  \"nama\": \"string | Required => Sample\",\n  \"alamat\": \"string | Optional => Jl. Sample No. X RT. 01 RW. 00\",\n  \"lat\": \"string | Required => -0.4191422207962125\",\n  \"long\": \"string | Required => 117.16900524248992\",\n  \"deskripsi\": \"string | Optional => Kantor\",\n  \"radius_limit\": \"number | Required => 100\",\n  \"jam_masuk\": \"string | Required => 07:30:00\",\n  \"jam_pulang\": \"string | Required => 16:30:00\"\n}"
                 }
               }
             },
@@ -550,7 +550,7 @@
                 },
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"nama\": \"string | Optional => Sample\",\n  \"alamat\": \"string | Optional => Jl. Sample No. X RT. 01 RW. 00\",\n  \"lat\": \"string | Optional => -0.4191422207962125\",\n  \"long\": \"string | Optional => 117.16900524248992\",\n  \"deskripsi\": \"string | Optional => Kantor\",\n  \"radius_limit\": \"number | Optional => 100\",\n  \"jam_masuk\": \"string | Optional => 07:30\",\n  \"jam_pulang\": \"string | Optional => 16:30\"\n}"
+                  "raw": "{\n  \"nama\": \"string | Optional => Sample\",\n  \"alamat\": \"string | Optional => Jl. Sample No. X RT. 01 RW. 00\",\n  \"lat\": \"string | Optional => -0.4191422207962125\",\n  \"long\": \"string | Optional => 117.16900524248992\",\n  \"deskripsi\": \"string | Optional => Kantor\",\n  \"radius_limit\": \"number | Optional => 100\",\n  \"jam_masuk\": \"string | Optional => 07:30:00\",\n  \"jam_pulang\": \"string | Optional => 16:30:00\"\n}"
                 }
               }
             },

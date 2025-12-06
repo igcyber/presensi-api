@@ -33,8 +33,8 @@ export function extractRequestBodyFromHandler(route: any): Record<string, any> |
                 long: "string | Required => 117.16900524248992",
                 deskripsi: "string | Optional => Kantor",
                 radius_limit: "number | Required => 100",
-                jam_masuk: "string | Required => 07:30",
-                jam_pulang: "string | Required => 16:30"
+                jam_masuk: "string | Required => 07:30:00",
+                jam_pulang: "string | Required => 16:30:00"
             }
 
         case '/api/admin/kantor/:id':
@@ -45,8 +45,8 @@ export function extractRequestBodyFromHandler(route: any): Record<string, any> |
                 long: "string | Optional => 117.16900524248992",
                 deskripsi: "string | Optional => Kantor",
                 radius_limit: "number | Optional => 100",
-                jam_masuk: "string | Optional => 07:30",
-                jam_pulang: "string | Optional => 16:30"
+                jam_masuk: "string | Optional => 07:30:00",
+                jam_pulang: "string | Optional => 16:30:00"
             }
 
         case '/api/admin/tipe-pegawai':
