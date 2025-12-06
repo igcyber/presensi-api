@@ -207,7 +207,9 @@ export function extractQueryParamsFromHandler(route: any): Record<string, any> |
             }
 
         case '/api/admin/pegawai/list-pegawai':
-			return null
+			return {
+                search: "string | null | Untuk Mencari nama pegawai atau kantor => prama | diskom"
+            }
 
         case '/api/admin/pegawai/:id':
 			return null

@@ -869,7 +869,9 @@
                   ]
                 }
               },
-              "parameter": {}
+              "parameter": {
+                "search": "string | null | Untuk Mencari nama pegawai atau kantor => prama | diskom"
+              }
             },
             {
               "name": "/api/admin/pegawai/:id",
