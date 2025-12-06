@@ -16,7 +16,7 @@ export default class PermohonanRepository extends BaseRepository<PermohonanModel
 	// Disini Wajib Menyesuaikan PermohonanInteface
 	async indexData(data: Partial<any>, page: number, per_page: number): Promise<PermohonanModel[]> {
 		const query	=	this.model.query().select(
-			'id', 'pegawai_id', 'tipe', 'tanggal_pengajuan', 'keterangan_pengajuan',
+			'id', 'pegawai_id', 'tipe', 'tanggal_pengajuan', 'keterangan_pengajuan', 'status',
 			'file_pendukung', 'verifikator_id', 'tanggal_verifikator', 'keterangan_verifikator'
 		).preload('pegawai', (qP: any) => qP.select('id', 'nama') )
 		.preload('verifikator', (qP: any) => qP.select('id', 'username') )
