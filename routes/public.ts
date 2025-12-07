@@ -3,4 +3,6 @@ import router from '@adonisjs/core/services/router'
 
 router.group(() => {
 	router.get('/file/*', [ PublicController, 'getFile' ])
+
+	router.get('/pwa-latest-version', [ PublicController, 'pwaLatest' ])
 }).prefix('/api')
