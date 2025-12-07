@@ -5,6 +5,38 @@
   },
   "item": [
     {
+      "name": "pwa-latest-version",
+      "item": [
+        {
+          "name": "/api/pwa-latest-version",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/pwa-latest-version",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "pwa-latest-version"
+              ]
+            }
+          },
+          "parameter": {}
+        }
+      ]
+    },
+    {
       "name": "auth",
       "item": [
         {
@@ -1160,7 +1192,7 @@
               },
               "parameter": {
                 "search": "string | null | Untuk Mencari keterangan => lorem ipsum dolor sit amet",
-                "date": "string | Default Hari Ini Jika Kosong => 2025-11-01",
+                "date": "string | null | Jika null akan memunculkan hari libur selama 1 tahun ditahun sekarang => 2025-11-01",
                 "page": "number | default = 1 => 2",
                 "per_page": "number | default = 10, ini untuk limit yang ditampilkan => 20"
               }

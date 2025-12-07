@@ -230,7 +230,7 @@ export function extractQueryParamsFromHandler(route: any): Record<string, any> |
         case '/api/admin/hari-libur':
 			return {
                 search: "string | null | Untuk Mencari keterangan => lorem ipsum dolor sit amet",
-                date: "string | Default Hari Ini Jika Kosong => 2025-11-01",
+                date: "string | null | Jika null akan memunculkan hari libur selama 1 tahun ditahun sekarang => 2025-11-01",
                 page: "number | default = 1 => 2",
                 per_page: "number | default = 10, ini untuk limit yang ditampilkan => 20"
             }

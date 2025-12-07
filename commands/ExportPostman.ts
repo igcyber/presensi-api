@@ -28,6 +28,7 @@ export default class ExportPostman extends BaseCommand {
 			}
 
 			const allowedPrefixes		=	[
+				'/api/pwa-latest-version',
 				'/api/auth',
 				'/api/setting',
 				'/api/admin',
@@ -48,7 +49,7 @@ export default class ExportPostman extends BaseCommand {
 					{ key: 'Content-Type', value: 'application/json' }
 				]
 
-				if ( !['/api/auth/login', '/api/auth/refresh-token', '/api/auth/logout'].includes(pattern) ) {
+				if ( !['/api/auth/login', '/api/auth/refresh-token', '/api/auth/logout', '/api/pwa-latest-version'].includes(pattern) ) {
 					header.push({ key: 'Authorization', value: 'Bearer {{TOKEN}}' },)
 				}
 
