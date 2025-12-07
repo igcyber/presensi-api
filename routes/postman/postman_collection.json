@@ -1754,6 +1754,39 @@
                   "raw": "{\n  \"tipe\": \"enum | Required => Izin | Sakit | Cuti\",\n  \"tanggal_pengajuan\": \"string | Required => 2025-12-01\",\n  \"keterangan_pengajuan\": \"string | Required => Izin Sakit Tidak Bisa Masuk\",\n  \"file_pendukung\": \"file | extensi pdf => FILE\"\n}"
                 }
               }
+            },
+            {
+              "name": "/api/pegawai/pengajuan-tidak-hadir/:id/batal",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{TOKEN}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/pegawai/pengajuan-tidak-hadir/:id/batal",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "pegawai",
+                    "pengajuan-tidak-hadir",
+                    ":id",
+                    "batal"
+                  ]
+                }
+              }
             }
           ]
         }

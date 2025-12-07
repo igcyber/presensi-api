@@ -146,6 +146,9 @@ export function extractRequestBodyFromHandler(route: any): Record<string, any> |
                 file_pendukung: "file | extensi pdf => FILE"
             }
 
+        case '/api/pegawai/pengajuan-tidak-hadir/:id/batal':
+			return null
+
 		default:
 			return { sample: `Body untuk ${handler}` }
 	}
