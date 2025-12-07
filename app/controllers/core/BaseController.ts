@@ -70,6 +70,10 @@ export default abstract class BaseController<Service> {
                 return ResponseHelper.error(response, error.code, error.message)
             }
 
+            if ( error?.code == 401 ) {
+                return ResponseHelper.unauthorized(response, error.message)
+            }
+
             if (error?.code === 'E_VALIDATION_ERROR') {
                 return ResponseHelper.error(response, error?.status ?? 422, error.message, error?.messages ?? [])
             }
