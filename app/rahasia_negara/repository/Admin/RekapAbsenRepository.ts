@@ -17,12 +17,14 @@ export default class RekapAbsenRepository extends BaseRepository<AbsenModel & Lu
 	async rekapData(data: Partial<any>): Promise<any>{
 		const absen		=	this.model.query().select(
 			'id', 'pegawai_id', 'foto', 'tipe', 'tanggal_absen', 'lat', 'long', 'akurasi'
-		).whereBetween('tanggal_absen', [data.awal, data.akhir]).exec()
+		).where('pegawai_id', data.pegawai_id)
+		.whereBetween('tanggal_absen', [data.awal, data.akhir]).exec()
 
 		// @ts-ignore
 		const pegawai	=	UserPegawaiModel.query().select(
 			'id', 'nama', 'tipe_pegawai_id'
-		).preload('tipePegawai', (qp: any) => qp.select('nama') ).first()
+		).preload('tipePegawai', (qp: any) => qp.select('nama') )
+		.where('id', data.pegawai_id).first()
 
 		return {
 			absen,
