@@ -66,8 +66,8 @@ export default abstract class BaseController<Service> {
                 return ResponseHelper.notFound(response, 'Data Tidak Ditemukan')
             }
 
-            if ( error?.code == 500 ) {
-                return ResponseHelper.error(response, 500, error.message)
+            if ( error?.code == 500 || error?.code == 412 ) {
+                return ResponseHelper.error(response, error.code, error.message)
             }
 
             if (error?.code === 'E_VALIDATION_ERROR') {
