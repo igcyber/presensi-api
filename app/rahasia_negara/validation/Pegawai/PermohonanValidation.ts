@@ -45,10 +45,9 @@ export const createPermohonanValidator = vine.compile(
 
 export const updatePermohonanValidator = vine.compile(
 	vine.object({
-		// Isi Validasi Disini
-
-		// contoh:
-		// nama: vine.string().trim().minLength(1).maxLength(255).optional(),
-		// judul: vine.string().trim().minLength(1).maxLength(255).optional(),
+		pegawai_id: vine.number().exists({
+			table: 'user_pegawais',
+			column: 'id'
+    	})
   	})
 )

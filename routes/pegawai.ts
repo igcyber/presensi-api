@@ -36,6 +36,7 @@ router.group(() => {
         router.get('/', wrap.PermohonanController.index)
 		router.get('/status-permohonan', wrap.PermohonanController.statusPermohonan)
 		router.post('/', wrap.PermohonanController.store)
+		router.put('/:id/batal', wrap.PermohonanController.update)
     }).prefix('/pengajuan-tidak-hadir')
 
 }).prefix('/api/pegawai').use([middleware.auth(), middleware.hasRole(['pegawai'])])

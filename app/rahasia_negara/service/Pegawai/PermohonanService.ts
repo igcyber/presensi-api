@@ -139,4 +139,33 @@ export default class PermohonanService extends BaseService<
             }
         }
     }
+
+    async update(id: number, data: any): Promise<any> {
+        const user          =   UserContext.get()
+
+        await this.updateValidator.validate({
+            ...data, pegawai_id: user.pegawai_id
+        })
+
+        const permohonan    =   await this.repository.findById(id)
+
+        if (!permohonan) throw {
+            code: 404,
+            message: 'Data Tidak Ditemukan'
+        }
+
+        if (permohonan.status !== 'pending') throw {
+            code: 412,
+            message: 'Data Permohonan Anda Sudah Diproses!'
+        }
+
+        if (permohonan.pegawai_id != user.pegawai_id) throw {
+            code: 401,
+            message: 'Anda Tidak Bisa Membatalkan Permohonan Pegawai Selain Diri Anda!'
+        }
+
+		return this.repository.update(id, {
+            status: 'batal'
+        })
+	}
 }

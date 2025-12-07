@@ -45,7 +45,7 @@ export default class PermohonanModel extends SoftDeleteModel {
     }
 
     @column()
-    declare status: 'pending' | 'diterima' | 'ditolak'
+    declare status: 'pending' | 'diterima' | 'ditolak' | 'batal'
 
     @column.dateTime({ autoCreate: false, autoUpdate: false })
     declare tanggal_verifikator?: DateTime
