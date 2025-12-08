@@ -54,9 +54,7 @@ export default class AbsenRepository extends BaseRepository<AbsenModel & LucidRo
 				// @ts-ignore
 				const uPermohonan	= await PermohonanModel.find(dataPermohonan.id)
 
-				if (!uPermohonan) throw new Error('Data tidak ditemukan')
-
-				if ( uPermohonan.status == 'pending' ) {
+				if ( uPermohonan?.status == 'pending' ) {
 					uPermohonan.merge({ status: 'batal' })
 
 					await uPermohonan.save({ client: DBTransaction })
