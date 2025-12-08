@@ -6,6 +6,8 @@ import { DateTime } from 'luxon'
 
 import SoftDeleteModel from '#models/anchor/SoftDeleteModel'
 import UserPegawaiModel from '#models/UserPegawaiModel'
+import HariLiburModel from '#models/HariLiburModel'
+import PermohonanModel from '#models/PermohonanModel'
 
 export default class Absen extends SoftDeleteModel {
     static table = 'absens'
@@ -15,6 +17,9 @@ export default class Absen extends SoftDeleteModel {
 
     @column()
     declare hari_libur_id?: number
+
+    @column()
+    declare permohonan_id?: number
 
     @column()
     declare pegawai_id: number
@@ -49,4 +54,14 @@ export default class Absen extends SoftDeleteModel {
     @belongsTo(() => UserPegawaiModel, { foreignKey: 'pegawai_id' })
     // @ts-ignore
     declare pegawai: BelongsTo<typeof UserPegawaiModel>
+
+    // @ts-ignore
+    @belongsTo(() => HariLiburModel, { foreignKey: 'hari_libur_id' })
+    // @ts-ignore
+    declare hariLibur: BelongsTo<typeof HariLiburModel>
+
+    // @ts-ignore
+    @belongsTo(() => PermohonanModel, { foreignKey: 'permohonan_id' })
+    // @ts-ignore
+    declare permohonan: BelongsTo<typeof PermohonanModel>
 }
