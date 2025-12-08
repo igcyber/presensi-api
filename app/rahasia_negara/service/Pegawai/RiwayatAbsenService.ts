@@ -27,7 +27,23 @@ export default class RiwayatAbsenService extends BaseService<
         })
 
         const tanggal       =   await getTanggal(validated.date)
+        let dataAbsen       =   await this.repository.indexData(user.pegawai_id, tanggal)
 
-        return await this.repository.indexData(user.pegawai_id, tanggal)
+        dataAbsen           =   dataAbsen.map( (item: any) => {
+            const json              =   item.serialize()
+
+            json.tanggalAbsen       =   !["MASUK", "MASUK_LEMBUR", "PULANG", "PULANG_LEMBUR"].includes(json.tipe) ? json.tanggalAbsen.split('T')[0] : json.tanggalAbsen
+            json.filePendukungUrl   =   json.permohonan?.filePendukungUrl || null
+            json.keterangan         =   json.hariLibur ? json.hariLibur.keterangan : (json.permohonan ? json.permohonan.keteranganPengajuan : '-')
+
+            delete json.hariLiburId
+            delete json.hariLibur
+            delete json.permohonanId
+            delete json.permohonan
+
+            return json
+        })
+
+        return dataAbsen
     }
 }
