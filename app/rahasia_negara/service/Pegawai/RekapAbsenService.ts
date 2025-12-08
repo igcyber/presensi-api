@@ -101,7 +101,7 @@ export default class RekapAbsenService extends BaseService<
             let dataAbsen           =   groupResult[key] ?? []
 
             let status              =   isWeekend(key) ? "Tanggal Merah" : "Tanpa Keterangan"
-            let keterangan          =   'Tidak Hadir'
+            let keterangan: string | null   =   'Tidak Hadir'
 
             if (dataAbsen.length) {
                 const hasMasuk      =   dataAbsen.some(a => a.tipe === "MASUK" || a.tipe === "MASUK_LEMBUR")
@@ -110,8 +110,10 @@ export default class RekapAbsenService extends BaseService<
                 const hasSakit      =   dataAbsen.some(a => a.tipe === "SAKIT")
                 const hasLibur      =   dataAbsen.some(a => a.tipe === "LIBUR")
 
-                if (hasMasuk) status    =   isWeekend(key) ? "Lembur" : "Hadir"
-                else if (hasLibur || hasIzin || hasCuti || hasSakit) {
+                if (hasMasuk) {
+                    status      =   isWeekend(key) ? "Lembur" : "Hadir"
+                    keterangan  =   null
+                } else if (hasLibur || hasIzin || hasCuti || hasSakit) {
                     status      =   dataAbsen[0].tipe.toLowerCase()
                     status      =   status.charAt(0).toUpperCase() + status.slice(1)
                     keterangan  =   dataAbsen[0]?.keterangan
