@@ -8,6 +8,7 @@ export default class extends BaseSchema {
 			table.increments('id').notNullable()
 
 			table.integer('hari_libur_id').unsigned().references('id').inTable('hari_liburs').onDelete('CASCADE').onUpdate('CASCADE')
+			table.integer('permohonan_id').unsigned().references('id').inTable('hari_liburs').onDelete('CASCADE').onUpdate('CASCADE')
 			table.integer('pegawai_id').unsigned().references('id').inTable('user_pegawais').onDelete('CASCADE').onUpdate('CASCADE').notNullable()
 			table.string('foto', 191).nullable()
 
