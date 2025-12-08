@@ -116,6 +116,7 @@ export default class PermohonanRepository extends BaseRepository<PermohonanModel
 				// @ts-ignore
 				const cAbsen	=	await AbsenModel.create({
 					pegawai_id: vPermohonan.pegawai_id,
+					permohonan_id: vPermohonan.id,
 					tanggal_absen: new Date(vPermohonan.tanggal_pengajuan).toLocaleString('sv-SE'),
 					tipe: vPermohonan.tipe.toUpperCase(),
 				}, { client: DBTransaction })
