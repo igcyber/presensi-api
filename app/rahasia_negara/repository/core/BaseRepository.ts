@@ -33,7 +33,10 @@ export default abstract class BaseRepository<Row = any> {
 		const DBTransaction 	= await db.transaction()
 
 		try {
-			const createdData 	= await this.model.create(data as Partial<ModelAttributes<any>>)
+			const createdData 	= await this.model.create(
+				data as Partial<ModelAttributes<any>>,
+				{ client: DBTransaction }
+			)
 
 			await DBTransaction.commit()
 
