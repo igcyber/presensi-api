@@ -15,7 +15,9 @@ export default class RekapAbsenRepository extends BaseRepository<AbsenModel & Lu
 	// Disini Wajib Menyesuaikan RekapAbsenInteface
 	async rekapData(pegawai: number, data: Partial<any>): Promise<any>{
 		return this.model.query().select(
-			'id', 'pegawai_id', 'foto', 'tipe', 'tanggal_absen', 'lat', 'long', 'akurasi'
-		).where('pegawai_id', pegawai).whereBetween('tanggal_absen', [data.awal, data.akhir]).exec()
+			'id', 'hari_libur_id', 'permohonan_id', 'pegawai_id', 'foto', 'tipe', 'tanggal_absen', 'lat', 'long', 'akurasi'
+		).preload('hariLibur', (qhl: any) => qhl.select('keterangan') )
+		.preload('permohonan', (qpm: any) => qpm.select('tipe', 'keterangan_pengajuan') )
+		.where('pegawai_id', pegawai).whereBetween('tanggal_absen', [data.awal, data.akhir]).exec()
 	}
 }

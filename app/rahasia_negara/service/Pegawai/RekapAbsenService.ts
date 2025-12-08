@@ -63,6 +63,7 @@ export default class RekapAbsenService extends BaseService<
                 pegawai_id: dQuery.pegawai_id,
 				foto: dQuery.foto,
                 foto_url: dQuery.foto_url,
+                keterangan: dQuery.hariLibur ? dQuery.hariLibur.keterangan : ( dQuery.permohonan ? dQuery.permohonan.keterangan_pengajuan : '-'),
 				tipe: dQuery.tipe,
 				jam: jam,
 				lat: dQuery.lat,
@@ -97,23 +98,42 @@ export default class RekapAbsenService extends BaseService<
             tanggalSekarang.setDate(tanggalAwal.getDate() + i)
 
             const key               =   tanggalSekarang.toISOString().split('T')[0]
-            const dataAbsen         =   groupResult[key] ?? []
+            let dataAbsen           =   groupResult[key] ?? []
 
             let status              =   isWeekend(key) ? "Tanggal Merah" : "Tanpa Keterangan"
+            let keterangan          =   'Tidak Hadir'
 
             if (dataAbsen.length) {
                 const hasMasuk      =   dataAbsen.some(a => a.tipe === "MASUK" || a.tipe === "MASUK_LEMBUR")
                 const hasIzin       =   dataAbsen.some(a => a.tipe === "IZIN")
+                const hasCuti       =   dataAbsen.some(a => a.tipe === "CUTI")
+                const hasSakit      =   dataAbsen.some(a => a.tipe === "SAKIT")
                 const hasLibur      =   dataAbsen.some(a => a.tipe === "LIBUR")
 
-                if (hasMasuk) status        = isWeekend(key) ? "Lembur" : "Hadir"
-                else if (hasIzin) status    = "Izin"
-                else if (hasLibur) status   = "Libur"
+                if (hasMasuk) status    =   isWeekend(key) ? "Lembur" : "Hadir"
+                else if (hasLibur || hasIzin || hasCuti || hasSakit) {
+                    status      =   dataAbsen[0].tipe.toLowerCase()
+                    status      =   status.charAt(0).toUpperCase() + status.slice(1)
+                    keterangan  =   dataAbsen[0]?.keterangan
+
+                    dataAbsen           =   dataAbsen.map(dam => {
+                        dam.jam     =   null
+
+                        return dam
+                    })
+                }
+
+                dataAbsen           =   dataAbsen.map(dam => {
+                    delete dam.keterangan
+
+                    return dam
+                })
             }
 
             selesai[i] = {
                 tanggal: key,
                 status,
+                keterangan,
                 data_absen: dataAbsen,
             }
         }
